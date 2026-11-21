@@ -250,8 +250,7 @@ input,select,textarea{font-family:inherit}
 <script>
 function qv(id){return (document.getElementById(id).value||'').trim();}
 function sendQuote(via){
-  var text=['Hi Prime Access, I would like a free quote.','Name: '+qv('q-name'),'Phone: '+qv('q-phone'),'Service: '+qv('q-service'),'Details: '+qv('q-msg')].join('
-');
+  var text=['Hi Prime Access, I would like a free quote.','Name: '+qv('q-name'),'Phone: '+qv('q-phone'),'Service: '+qv('q-service'),'Details: '+qv('q-msg')].join('\n');
   window.open('https://wa.me/14374272418?text='+encodeURIComponent(text),'_blank');
 }
 function submitQuote(e){
