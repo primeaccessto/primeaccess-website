@@ -182,17 +182,19 @@ input,select,textarea{font-family:inherit}
 <p style="margin: 16px 0 0; font-size: 17px; line-height: 1.6; color: #474747; max-width: 520px">Send the details on WhatsApp or by email, or call us directly. Photos help us come prepared.</p>
 <a href="tel:+14374272418" class="pa-btn" style="margin-top: 28px; background: #000; color: #0BFF5B; text-decoration: none; font-weight: 800; font-size: 18px; padding: 18px 28px; border-radius: 999px; display: inline-flex">Call 437-427-2418</a>
 </div>
-<form id="quote" aria-label="Request a free quote" onsubmit="return false" style="flex: 1 1 380px; max-width: 460px; background: #fff; color: #111; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 60px rgba(0,0,0,.45); border-top: 6px solid #0BFF5B">
+<form id="quote" aria-label="Request a free quote" onsubmit="return submitQuote(event)" style="flex: 1 1 380px; max-width: 460px; background: #fff; color: #111; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 60px rgba(0,0,0,.45); border-top: 6px solid #0BFF5B">
 <div>
 <h2 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px">Get your free quote</h2>
 <p style="margin: 6px 0 0; font-size: 15px; color: #474747">Tell us what's going on and we'll get back to you fast.</p>
 </div>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Name<input id="q-name" type="text" autocomplete="name" placeholder="Your name" style="height: 48px; border: 1.5px solid #DADCE0; border-radius: 10px; padding: 0 14px; font-size: 16px"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Phone<input id="q-phone" type="tel" autocomplete="tel" placeholder="(416) 555-0123" style="height: 48px; border: 1.5px solid #DADCE0; border-radius: 10px; padding: 0 14px; font-size: 16px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Name<input id="q-name" type="text" required autocomplete="name" placeholder="Your name" style="height: 48px; border: 1.5px solid #DADCE0; border-radius: 10px; padding: 0 14px; font-size: 16px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Phone<input id="q-phone" type="tel" required autocomplete="tel" placeholder="(416) 555-0123" style="height: 48px; border: 1.5px solid #DADCE0; border-radius: 10px; padding: 0 14px; font-size: 16px"></label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">Service needed<select id="q-service" style="height: 48px; border: 1.5px solid #DADCE0; border-radius: 10px; padding: 0 12px; font-size: 16px; background: #fff"><option selected>Garage door repair</option><option>New garage door / opener</option><option>Locksmith</option><option>Doors</option><option>Windows</option><option>Installation</option></select></label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700">What's the problem?<textarea id="q-msg" rows="3" placeholder="e.g. door won't close, broken spring, need rekey…" style="border: 1.5px solid #DADCE0; border-radius: 10px; padding: 12px 14px; font-size: 16px; resize: vertical"></textarea></label>
-<button type="button" onclick="sendQuote('wa')" class="pa-btn" style="height: 54px; border: 0; border-radius: 999px; background: #000; color: #0BFF5B; font-weight: 800; font-size: 17px; cursor: pointer; font-family: inherit">Send on WhatsApp</button>
-<button type="button" onclick="sendQuote('email')" style="height: 48px; border: 2px solid #000; border-radius: 999px; background: #fff; color: #000; font-weight: 700; font-size: 16px; cursor: pointer; font-family: inherit">Send by email instead</button>
+<input type="text" name="_honey" id="q-honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display: none">
+<button type="submit" id="q-send" class="pa-btn" style="height: 54px; border: 0; border-radius: 999px; background: #000; color: #0BFF5B; font-weight: 800; font-size: 17px; cursor: pointer; font-family: inherit">Send my request</button>
+<button type="button" onclick="sendQuote('wa')" style="height: 48px; border: 2px solid #000; border-radius: 999px; background: #fff; color: #000; font-weight: 700; font-size: 16px; cursor: pointer; font-family: inherit">Or send it on WhatsApp</button>
+<p id="q-status" role="status" aria-live="polite" style="margin: 0; font-size: 15px; font-weight: 600; text-align: center"></p>
 <p style="margin: 0; font-size: 13px; color: #5E5E5E; text-align: center">Emergency? Call <a href="tel:+14374272418" style="color: #000; font-weight: 700">437-427-2418</a> anytime, 24/7.</p>
 </form>
 </div>
@@ -234,12 +236,32 @@ input,select,textarea{font-family:inherit}
 </footer>
 </div>
 <script>
+function qv(id){return (document.getElementById(id).value||'').trim();}
 function sendQuote(via){
-  var g=function(id){return (document.getElementById(id).value||'').trim();};
-  var lines=['Hi Prime Access, I would like a free quote.','Name: '+g('q-name'),'Phone: '+g('q-phone'),'Service: '+g('q-service'),'Details: '+g('q-msg')];
-  var text=lines.join('\n');
-  if(via==='wa'){window.open('https://wa.me/14374272418?text='+encodeURIComponent(text),'_blank');}
-  else{window.location.href='mailto:primeaccess.to@gmail.com?subject='+encodeURIComponent('Free quote request: '+g('q-service'))+'&body='+encodeURIComponent(text);}
+  var text=['Hi Prime Access, I would like a free quote.','Name: '+qv('q-name'),'Phone: '+qv('q-phone'),'Service: '+qv('q-service'),'Details: '+qv('q-msg')].join('
+');
+  window.open('https://wa.me/14374272418?text='+encodeURIComponent(text),'_blank');
+}
+function submitQuote(e){
+  e.preventDefault();
+  var btn=document.getElementById('q-send'), st=document.getElementById('q-status');
+  if(qv('q-honey')) return false;
+  btn.disabled=true; btn.textContent='Sending...'; st.style.color='#474747'; st.textContent='';
+  fetch('https://formsubmit.co/ajax/primeaccess.to@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({_subject:'New quote request: '+qv('q-service'),_template:'table',_captcha:'false',Name:qv('q-name'),Phone:qv('q-phone'),Service:qv('q-service'),Details:qv('q-msg'),Page:location.pathname})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d && (d.success===true || d.success==='true')){
+      document.getElementById('quote').reset();
+      btn.textContent='Request sent';
+      st.style.color='#0a7a33'; st.textContent='Thanks! We got your request and will contact you soon. For emergencies call 437-427-2418.';
+    } else { throw new Error('fail'); }
+  })
+  .catch(function(){
+    btn.disabled=false; btn.textContent='Send my request';
+    st.style.color='#B00020'; st.textContent='Sorry, that didn\'t go through. Please call 437-427-2418 or use WhatsApp.';
+  });
+  return false;
 }
 </script>
 </body>
