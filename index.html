@@ -21,7 +21,17 @@ a{color:#111}a:hover{color:#000}
 .pa-btn:hover{filter:brightness(.92)}
 .pa-ghost:hover{background:#fff;color:#000}
 input,select,textarea{font-family:inherit}
-@media (max-width:760px){.pa-nav{display:none !important}.pa-hide-sm{display:none !important}}
+@media (max-width:760px){.pa-hide-sm{display:none !important}}
+.pa-nav a{white-space:nowrap}
+.pa-menu{display:none;position:relative}
+.pa-menu summary{list-style:none;cursor:pointer;color:#fff;border:2px solid #393939;border-radius:12px;width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+.pa-menu summary::-webkit-details-marker{display:none}
+.pa-menu-list{position:absolute;right:0;top:58px;background:#000;border:1px solid #393939;border-radius:16px;padding:10px;display:flex;flex-direction:column;min-width:220px;z-index:50;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.pa-menu-list a{color:#fff;text-decoration:none;font-weight:600;font-size:16px;padding:12px 14px;border-radius:10px}
+.pa-menu-list a:hover{background:#1F2020;color:#0BFF5B}
+@media (max-width:1100px){.pa-nav{display:none !important}.pa-menu{display:block}}
+@media (max-width:520px){.pa-quote-btn{display:none !important}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"HomeAndConstructionBusiness","name":"Prime Access","url":"https://www.primeaccessca.com/","telephone":"+1-437-427-2418","email":"primeaccess.to@gmail.com","logo":"https://www.primeaccessca.com/images/logo-full.png","openingHours":"Mo-Su 00:00-23:59","areaServed":["Toronto","Vaughan","Richmond Hill","Markham","Mississauga","Brampton","Oakville","Milton","Aurora"],"description":"Garage door repair and installation, locksmith, doors and windows for homes and businesses across the GTA. 24/7 emergency service."}</script>
 </head>
@@ -54,7 +64,10 @@ input,select,textarea{font-family:inherit}
 <a href="installation/">Installation</a>
 <a href="#about">About</a>
 </nav>
-<a href="#quote" class="pa-btn" style="background: #0BFF5B; color: #000; text-decoration: none; font-weight: 800; font-size: 15px; padding: 14px 22px; border-radius: 999px; white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center">Free Quote</a>
+<div style="display: flex; gap: 12px; align-items: center">
+<a href="#quote" class="pa-btn pa-quote-btn" style="background: #0BFF5B; color: #000; text-decoration: none; font-weight: 800; font-size: 15px; padding: 14px 22px; border-radius: 999px; white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center">Free Quote</a>
+<details class="pa-menu"><summary aria-label="Open menu"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></summary><div class="pa-menu-list"><a href="garage-door/">Garage Doors</a><a href="locksmith/">Locksmith</a><a href="doors/">Doors</a><a href="windows/">Windows</a><a href="installation/">Installation</a><a href="#about">About</a></div></details>
+</div>
 </div>
 </header>
 
